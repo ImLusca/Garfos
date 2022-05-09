@@ -7,22 +7,37 @@
 #include <stdlib.h>
 #include <queue>
 
-typedef struct _matrizAdjacencia{
-    float **matriz;
-    int numVertices;
-}matrizAdjacencia;
+// @Todo: Converter estrutura Para vetor de listas
+class ListaAdjacencia{
+    public:
+        std::vector<std::vector<int>> estrutura;
+        int numVertices;
+    ListaAdjacencia(int numV){
+        numVertices = numV;
+        estrutura = std::vector<std::vector<int>>(numVertices);  
+    }
+};
 
-typedef struct _garfo{
-    std::vector<std::vector<int>> estrutura;
-    int numVertices;
-}grafo;
+class MatrizAdjacencia{
+    public:
+        float **matriz;
+        int numVertices;
 
-void DFS(struct _garfo, int pos);
-void BFS(struct _garfo, int pos);
+    MatrizAdjacencia(int numV){
+        numVertices = numV;
 
+        matriz = (float**)malloc(sizeof(float*) * numVertices);
+        for(int i =0; i < numVertices; i++){
+            matriz[i] = (float*)malloc(sizeof(float) * numVertices);
+        }
+    }
+};
 
-struct _matrizAdjacencia geraErdosRenyi(int numVertices, float tresholdP);
-grafo converteAdjEstrutura(matrizAdjacencia m);
-void printaMatriz(struct _matrizAdjacencia);
+void DFS(struct ListaAdjacencia, int pos);
+void BFS(struct ListaAdjacencia, int pos);
+
+MatrizAdjacencia geraErdosRenyi(int numVertices, float tresholdP);
+ListaAdjacencia MatrizToLista(MatrizAdjacencia m);
+void printaMatriz(MatrizAdjacencia m);
 
 #endif

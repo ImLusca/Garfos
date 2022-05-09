@@ -3,12 +3,12 @@
 
 int main(){
 
-    matrizAdjacencia mat = geraErdosRenyi(5,0.3);
-
-    grafo gf = converteAdjEstrutura(mat);
-
+    MatrizAdjacencia mat = geraErdosRenyi(5,0.4);
     printaMatriz(mat);
 
-    return 0;
+    ListaAdjacencia gf = MatrizToLista(mat);
 
+    BFS(gf,0);
+
+    return 0;
 }
