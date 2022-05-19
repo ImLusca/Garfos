@@ -12,5 +12,7 @@ int main(){
 
     ListaAdjacencia lst = lerPajeck(fptr);
 
+    BFS(lst,1);
+
     return 0;
 }

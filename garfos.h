@@ -15,9 +15,9 @@ public:
     int numVertices;
     ListaAdjacencia(int numV)
     {
-        //@TODO pensar em solução melhor.
+        numV++;
         numVertices = numV;
-        estrutura = std::vector<std::vector<int>>(numVertices + 1);
+        estrutura = std::vector<std::vector<int>>(numVertices);
     }
     void addArestasBidirect(int vert1, int vert2)
     {
@@ -51,7 +51,7 @@ public:
 };
 
 void DFS(struct ListaAdjacencia, int pos);
-void BFS(struct ListaAdjacencia, int pos);
+std::vector<int> BFS(struct ListaAdjacencia, int pos);
 
 MatrizAdjacencia geraErdosRenyi(int numVertices, float tresholdP);
 void printaMatriz(MatrizAdjacencia m);
