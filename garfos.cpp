@@ -1,8 +1,10 @@
 #include "garfos.h"
 #include <string.h>
+#include <limits.h>
+
 // Buscas =================================================================
 
-void DFS_aux(ListaAdjacencia gf, std::vector<bool> &visited, int pos)
+void DFS_aux(ListaAdjacencia gf, std::vector<bool> &visited, ulong pos)
 {
 
     visited[pos] = true;
@@ -16,19 +18,18 @@ void DFS_aux(ListaAdjacencia gf, std::vector<bool> &visited, int pos)
     }
 }
 
-void DFS(ListaAdjacencia gf, int pos)
+void DFS(ListaAdjacencia gf, ulong pos)
 {
-    std::vector<bool> vs(false, gf.numVertices);
+    std::vector<bool> vs(gf.numVertices, false);
 
     DFS_aux(gf, vs, pos);
 }
 
-std::vector<int> BFS(ListaAdjacencia gf, int pos)
+std::vector<ulong> BFS(ListaAdjacencia gf, ulong pos)
 {
-    //@TODO : Trocar -1 por ULLONG_MAX e int por Uint Long
-    std::queue<int> q;
-    std::vector<int> visitado(gf.numVertices, -1);
-    std::vector<int> distancia(gf.numVertices, -1);
+    std::queue<ulong> q;
+    std::vector<bool> visitado(gf.numVertices, false);
+    std::vector<ulong> distancia(gf.numVertices, ULONG_MAX);
 
     q.push(pos);
 
@@ -42,10 +43,10 @@ std::vector<int> BFS(ListaAdjacencia gf, int pos)
 
         for (int i = 0; i < gf.estrutura[vert].size(); i++)
         {
-            if (visitado[gf.estrutura[vert][i]] == -1 && distancia[gf.estrutura[vert][i]] == -1)
-            {                
+            if (!visitado[gf.estrutura[vert][i]] && distancia[gf.estrutura[vert][i]] == ULONG_MAX)
+            {
                 distancia[gf.estrutura[vert][i]] = dist;
-                q.push(gf.estrutura[vert][i]);                
+                q.push(gf.estrutura[vert][i]);
             }
         }
         dist++;
@@ -131,9 +132,11 @@ static void populalst(FILE *fptr, ListaAdjacencia &lst);
 ListaAdjacencia lerPajeck(FILE *fptr)
 {
 
+    //@TODO: O ideal seria throwar uma exceção. talvez faça isso no futuro
     if (!fptr)
     {
         std::perror("Deu ruim ao abrir o arquivo");
+        return NULL;
     }
 
     ListaAdjacencia lst(leNumeroVertices(fptr));
