@@ -11,19 +11,20 @@
 class ListaAdjacencia
 {
 public:
-    std::vector<std::vector<int>> estrutura;
-    int numVertices;
-    ListaAdjacencia(int numV)
+    std::vector<std::vector<ulong>> estrutura;
+    ulong numVertices;
+    ListaAdjacencia(ulong numV)
     {
         numV++;
         numVertices = numV;
-        estrutura = std::vector<std::vector<int>>(numVertices);
+        estrutura = std::vector<std::vector<ulong>>(numVertices);
     }
-    void addArestasBidirect(int vert1, int vert2)
+    void addArestasBidirect(ulong vert1, ulong vert2)
     {
 
         if (vert1 > numVertices || vert2 > numVertices)
         {
+            std::cerr << "Tentativa de inserção inválida na lista";
             return;
         }
 
@@ -50,8 +51,8 @@ public:
     }
 };
 
-void DFS(struct ListaAdjacencia, int pos);
-std::vector<int> BFS(struct ListaAdjacencia, int pos);
+void DFS(struct ListaAdjacencia, ulong pos);
+std::vector<ulong> BFS(struct ListaAdjacencia, ulong pos);
 
 MatrizAdjacencia geraErdosRenyi(int numVertices, float tresholdP);
 void printaMatriz(MatrizAdjacencia m);
