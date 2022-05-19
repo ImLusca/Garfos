@@ -23,37 +23,35 @@ void DFS(ListaAdjacencia gf, int pos)
     DFS_aux(gf, vs, pos);
 }
 
-//@TODO: Consertar isso aqui
-void BFS(ListaAdjacencia gf, int pos)
+std::vector<int> BFS(ListaAdjacencia gf, int pos)
 {
+    //@TODO : Trocar -1 por ULLONG_MAX e int por Uint Long
     std::queue<int> q;
     std::vector<int> visitado(gf.numVertices, -1);
+    std::vector<int> distancia(gf.numVertices, -1);
+
     q.push(pos);
 
-    int dist = 0;
+    int dist = 1;
+    distancia[pos] = 0;
     while (!q.empty())
     {
-
         int vert = q.front();
         q.pop();
-
-        visitado[vert] = dist;
+        visitado[vert] = 1;
 
         for (int i = 0; i < gf.estrutura[vert].size(); i++)
         {
-            if (visitado[gf.estrutura[vert][i]] == -1)
-            {
-                q.push(gf.estrutura[vert][i]);
+            if (visitado[gf.estrutura[vert][i]] == -1 && distancia[gf.estrutura[vert][i]] == -1)
+            {                
+                distancia[gf.estrutura[vert][i]] = dist;
+                q.push(gf.estrutura[vert][i]);                
             }
         }
         dist++;
     }
 
-    for (int i = 0; i < gf.numVertices; i++)
-    {
-        printf("%i ", visitado[i]);
-    }
-    printf("\n");
+    return distancia;
 }
 
 // @TODO: implementar Dijkstra
@@ -127,8 +125,6 @@ ListaAdjacencia MatrizToLista(MatrizAdjacencia m)
     return lst;
 }
 
-//@TODO: Fazer conversor de Pajeck para Lista de Adjacência
-
 static int leNumeroVertices(FILE *fptr);
 static void populalst(FILE *fptr, ListaAdjacencia &lst);
 
@@ -166,7 +162,8 @@ static void populalst(FILE *fptr, ListaAdjacencia &lst)
 
     do
     {
-        if(fscanf(fptr, "%i %i", &vert1, &vert2) == -1){
+        if (fscanf(fptr, "%i %i", &vert1, &vert2) == -1)
+        {
             break;
         }
         lst.addArestasBidirect(vert1, vert2);
