@@ -6,7 +6,6 @@
 
 void DFS_aux(ListaAdjacencia gf, std::vector<bool> &visited, ulong pos)
 {
-
     visited[pos] = true;
 
     for (int i = 0; i < gf.estrutura[pos].size(); i++)
@@ -33,8 +32,10 @@ std::vector<ulong> BFS(ListaAdjacencia gf, ulong pos)
 
     q.push(pos);
 
-    int dist = 1;
     distancia[pos] = 0;
+    visitado[pos]  = true;
+
+    int dist = 1;
     while (!q.empty())
     {
         int vert = q.front();
@@ -43,13 +44,13 @@ std::vector<ulong> BFS(ListaAdjacencia gf, ulong pos)
 
         for (int i = 0; i < gf.estrutura[vert].size(); i++)
         {
-            if (!visitado[gf.estrutura[vert][i]] && distancia[gf.estrutura[vert][i]] == ULONG_MAX)
+            if (!visitado[gf.estrutura[vert][i]])
             {
-                distancia[gf.estrutura[vert][i]] = dist;
+                distancia[gf.estrutura[vert][i]] = distancia[vert] + 1;
+                visitado[vert] = true;
                 q.push(gf.estrutura[vert][i]);
             }
         }
-        dist++;
     }
 
     return distancia;

@@ -12,7 +12,7 @@ int main(){
 
     ListaAdjacencia lst = lerPajeck(fptr);
 
-    BFS(lst,1);
+    std::vector<ulong> tmp = BFS(lst,1);
 
     return 0;
 }
